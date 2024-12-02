@@ -1,17 +1,23 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 
 namespace SimpleTGBot;
+
+using System.Net.Http.Headers;
+using System.Numerics;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 public class TelegramBot
 {
     // Токен TG-бота. Можно получить у @BotFather
-    private const string BotToken = "ВАШ_ТОКЕН_ИДЕНТИФИКАЦИИ_БОТА";
-    
+    private const string BotToken = "7806168713:AAHcb2dRAlVvrEKr5n_tOnrgvi6nG2PkpI0";
+    private ReplyKeyboardMarkup mainMenu = new ReplyKeyboardMarkup(new[] { new[] { new KeyboardButton("Начать игру") },new[] { new KeyboardButton("Моя статистика") }, new[] {new KeyboardButton("Глобальный рейтинг") }});
+    private ReplyKeyboardMarkup answers = new ReplyKeyboardMarkup(new[] { new[] { new KeyboardButton("ответ1") }, new[] { new KeyboardButton("ответ2") }, new[] { new KeyboardButton("ответ3") } });
+    private ReplyKeyboardMarkup backButton = new ReplyKeyboardMarkup(new KeyboardButton("Назад"));
     /// <summary>
     /// Инициализирует и обеспечивает работу бота до нажатия клавиши Esc
     /// </summary>
@@ -20,10 +26,12 @@ public class TelegramBot
         // Если вам нужно хранить какие-то данные во время работы бота (массив информации, логи бота,
         // историю сообщений для каждого пользователя), то это всё надо инициализировать в этом методе.
         // TODO: Инициализация необходимых полей
-        
+
+        mainMenu.ResizeKeyboard = true;
+        backButton.ResizeKeyboard = true;
+        mainMenu.IsPersistent = false;
         // Инициализируем наш клиент, передавая ему токен.
         var botClient = new TelegramBotClient(BotToken);
-        
         // Служебные вещи для организации правильной работы с потоками
         using CancellationTokenSource cts = new CancellationTokenSource();
         
@@ -41,7 +49,7 @@ public class TelegramBot
             receiverOptions: receiverOptions,
             cancellationToken: cts.Token
         );
-
+        
         // Проверяем что токен верный и получаем информацию о боте
         var me = await botClient.GetMeAsync(cancellationToken: cts.Token);
         Console.WriteLine($"Бот @{me.Username} запущен.\nДля остановки нажмите клавишу Esc...");
@@ -89,6 +97,7 @@ public class TelegramBot
         Message sentMessage = await botClient.SendTextMessageAsync(
             chatId: chatId,
             text: "Ты написал:\n" + messageText,
+            replyMarkup: mainMenu,
             cancellationToken: cancellationToken);
     }
 
