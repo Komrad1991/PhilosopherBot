@@ -10,9 +10,14 @@ namespace SimpleTGBot
     internal sealed class User
     {
         public long chatId { get; private set; }
+        //на что отвечал
         public List<int> questionsUsed { get; set; } = new List<int>();
+        //всего вопросов
         public int Answers { get; set; } = 0;
+        //когда был выдан последний вопрос
         public DateTime LastQuest { get; set; } = DateTime.Now;
+
+        //очки
         public int score { get; private set; } = 0;
 
         public User(long ChatId) {
@@ -38,7 +43,7 @@ namespace SimpleTGBot
 
         public int GetLastQuest()
         {
-            if (questionsUsed.Count() > 0 && LastQuest.Date == DateTime.Now)
+            if (questionsUsed.Count() > 0 && LastQuest.Date == DateTime.Now.Date)
                 return questionsUsed[questionsUsed.Count() - 1];
             else
                 return -1;

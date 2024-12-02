@@ -2,8 +2,10 @@
 
 namespace SimpleTGBot;
 
+using LiteDB;
 using System.Net.Http.Headers;
 using System.Numerics;
+using System.Runtime.Intrinsics.X86;
 using System.Text.Json;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
@@ -17,20 +19,77 @@ public class TelegramBot
     // Токен TG-бота. Можно получить у @BotFather
     private const string BotToken = "7806168713:AAHcb2dRAlVvrEKr5n_tOnrgvi6nG2PkpI0";
     private ReplyKeyboardMarkup mainMenu = new ReplyKeyboardMarkup(new[] { new[] { new KeyboardButton("Начать игру") },new[] { new KeyboardButton("Моя статистика") }, new[] {new KeyboardButton("Глобальный рейтинг") }});
-    private ReplyKeyboardMarkup answers = new ReplyKeyboardMarkup(new[] { new[] { new KeyboardButton("ответ1") }, new[] { new KeyboardButton("ответ2") }, new[] { new KeyboardButton("ответ3") } });
+    private ReplyKeyboardMarkup answers = new ReplyKeyboardMarkup(new[] { new[] { new KeyboardButton("ответ 1") }, new[] { new KeyboardButton("ответ 2") }, new[] { new KeyboardButton("ответ 3") }, new[] { new KeyboardButton("ответ 4") } });
     private ReplyKeyboardMarkup backButton = new ReplyKeyboardMarkup(new KeyboardButton("Назад"));
+    private ReplyKeyboardMarkup continueButton = new ReplyKeyboardMarkup(new[] { new[] { new KeyboardButton("Продолжить") }, new[] { new KeyboardButton("В меню") } });
+
+    const string DBPATH = "users.db";
+
+
+    List<Question> philosophyQuestions = new List<Question>
+        {
+            new Question(
+                "Кто является основателем философии как науки?",
+                new List<string> { "Платон", "Сократ", "Аристотель", "Пифагор" },
+                1
+            ),
+            new Question(
+                "Что такое 'категорический императив' в философии?",
+                new List<string> { "Запрещённый акт", "Принцип в морали", "Логическое правило", "Философия естествознания" },
+                1
+            ),
+            new Question(
+                "Какой философ является автором идеи 'Cogito, ergo sum' (Я мыслю, следовательно, существую)?",
+                new List<string> { "Фридрих Ницше", "Жан-Поль Сартр", "Рене Декарт", "Иммануил Кант" },
+                2
+            ),
+            new Question(
+                "Какой философ развивал идею 'все есть материя'?",
+                new List<string> { "Гераклит", "Демокрит", "Платон", "Аристотель" },
+                1
+            ),
+            new Question(
+                "Кто из философов написал произведение 'Бытиё и ничто'?",
+                new List<string> { "Фридрих Ницше", "Жан-Поль Сартр", "Мартин Хайдеггер", "Мишель Фуко" },
+                1
+            ),
+            new Question(
+                "Какое учение было основным у Платона?",
+                new List<string> { "Рационализм", "Эмпиризм", "Идеализм", "Скептицизм" },
+                2
+            ),
+            new Question(
+                "Какая философская школа акцентирует внимание на поиске удовольствия?",
+                new List<string> { "Стоицизм", "Эпикуреизм", "Платонизм", "Кинизм" },
+                1
+            ),
+            new Question(
+                "Какая книга является основным произведением Иммануила Канта?",
+                new List<string> { "Критика чистого разума", "Древнегреческая философия", "Диалектика", "Бытие и время" },
+                0
+            ),
+            new Question(
+                "Какую философскую систему разработал Фридрих Ницше?",
+                new List<string> { "Позитивизм", "Нигилизм", "Утилитаризм", "Воля к власти" },
+                3
+            ),
+            new Question(
+                "Какое учение утверждает, что вся реальность состоит из мысли?",
+                new List<string> { "Идеализм", "Материализм", "Рационализм", "Прагматизм" },
+                0
+            )
+        };
     /// <summary>
     /// Инициализирует и обеспечивает работу бота до нажатия клавиши Esc
     /// </summary>
     public async Task Run()
     {
-        // Если вам нужно хранить какие-то данные во время работы бота (массив информации, логи бота,
-        // историю сообщений для каждого пользователя), то это всё надо инициализировать в этом методе.
-        // TODO: Инициализация необходимых полей
+        
 
         mainMenu.ResizeKeyboard = true;
         backButton.ResizeKeyboard = true;
         answers.ResizeKeyboard = true;
+        continueButton.ResizeKeyboard = true;
         // Инициализируем наш клиент, передавая ему токен.
         var botClient = new TelegramBotClient(BotToken);
         // Служебные вещи для организации правильной работы с потоками
@@ -92,15 +151,207 @@ public class TelegramBot
         
         // Печатаем на консоль факт получения сообщения
         Console.WriteLine($"Получено сообщение в чате {chatId}: '{messageText}'");
-
-        if (messageText == "Начать игру")
+        
+        if (messageText == "/start")
         {
-            //todo - проверка, что тест завершен
+            User user1 = new User(chatId);
+
+            using (var db = new LiteDatabase(DBPATH))
+            {
+
+                var users = db.GetCollection<User>("users");
+                if (users.FindOne(x => x.chatId == chatId) == null)
+                {
+                    users.Insert(user1);
+                }
+            }
             await botClient.SendTextMessageAsync(
-            chatId: chatId,
-            text: $"сюда вопрос: {123}",
-            replyMarkup: answers,
-            cancellationToken: cancellationToken);
+                        chatId: chatId,
+                        text: "Приветствую",
+                        replyMarkup: mainMenu,
+                        cancellationToken: cancellationToken);
+            return;
+        }
+        else if (messageText == "Начать игру" || messageText == "Продолжить")
+        {
+            using (var db = new LiteDatabase(DBPATH))
+            {
+
+                var users = db.GetCollection<User>("users");
+                var user = users.FindOne(x => x.chatId == chatId);
+                if (user == null)
+                {
+                    user = new User(chatId);
+                    users.Insert(user);
+                }
+                if (user.GetLastQuest() == -1)
+                {
+                    Random r = new Random();
+                    int id = r.Next(0, 9);
+                    while (user.questionsUsed.FindIndex(x => x == id) != -1)
+                    {
+                        id = r.Next(0, 9);
+                    }
+                    if (!user.AddQuest(id))
+                    {
+                        await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Вы ответили на все вопросы сегодня",
+                        replyMarkup: mainMenu,
+                        cancellationToken: cancellationToken);
+                        return;
+                    }
+                }
+                var currQuest = philosophyQuestions[user.GetLastQuest()];
+                string options = "";
+                for (int i = 0; i < currQuest.Options.Count(); i++)
+                {
+                    options += $"{i + 1})" + currQuest.Options[i] + "\n";
+                }
+                await botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: $"""
+                    {currQuest.QuestionText}
+                    Варианты:
+                    {options}
+                    """,
+                    replyMarkup: answers,
+                    cancellationToken: cancellationToken);
+               users.Update(user);
+            }
+
+        }
+        else if (messageText == "ответ 1")
+        {
+            using (var db = new LiteDatabase(DBPATH))
+            {
+
+                var users = db.GetCollection<User>("users");
+                var user = users.FindOne(x => x.chatId == chatId);
+                if (user == null)
+                {
+                    user = new User(chatId);
+                    users.Insert(user);
+                }
+                if (philosophyQuestions[user.GetLastQuest()].IsCorrect(0))
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Ваш ответ верный",
+                        replyMarkup: continueButton,
+                        cancellationToken: cancellationToken);
+                    user.AddAnswer(true);
+                }
+                else
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Ваш ответ неверный",
+                        replyMarkup: continueButton,
+                        cancellationToken: cancellationToken);
+                    user.AddAnswer(false);
+                }
+                users.Update(user);
+            }
+        }
+        else if (messageText == "ответ 2")
+        {
+            using (var db = new LiteDatabase(DBPATH))
+            {
+
+                var users = db.GetCollection<User>("users");
+                var user = users.FindOne(x => x.chatId == chatId);
+                if (user == null)
+                {
+                    user = new User(chatId);
+                    users.Insert(user);
+                }
+                if (philosophyQuestions[user.GetLastQuest()].IsCorrect(1))
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Ваш ответ верный",
+                        replyMarkup: continueButton,
+                        cancellationToken: cancellationToken);
+                    user.AddAnswer(true);
+                }
+                else
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Ваш ответ неверный",
+                        replyMarkup: continueButton,
+                        cancellationToken: cancellationToken);
+                    user.AddAnswer(false);
+                }
+                users.Update(user);
+            }
+        }
+        else if (messageText == "ответ 3")
+        {
+            using (var db = new LiteDatabase(DBPATH))
+            {
+
+                var users = db.GetCollection<User>("users");
+                var user = users.FindOne(x => x.chatId == chatId);
+                if (user == null)
+                {
+                    user = new User(chatId);
+                    users.Insert(user);
+                }
+                if (philosophyQuestions[user.GetLastQuest()].IsCorrect(2))
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Ваш ответ верный",
+                        replyMarkup: continueButton,
+                        cancellationToken: cancellationToken);
+                    user.AddAnswer(true);
+                }
+                else
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Ваш ответ неверный",
+                        replyMarkup: continueButton,
+                        cancellationToken: cancellationToken);
+                    user.AddAnswer(false);
+                }
+                users.Update(user);
+            }
+        }
+        else if (messageText == "ответ 4")
+        {
+            using (var db = new LiteDatabase(DBPATH))
+            {
+
+                var users = db.GetCollection<User>("users");
+                var user = users.FindOne(x => x.chatId == chatId);
+                if (user == null)
+                {
+                    user = new User(chatId);
+                    users.Insert(user);
+                }
+                if (philosophyQuestions[user.GetLastQuest()].IsCorrect(3))
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Ваш ответ верный",
+                        replyMarkup: continueButton,
+                        cancellationToken: cancellationToken);
+                    user.AddAnswer(true);
+                }
+                else
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Ваш ответ неверный",
+                        replyMarkup: continueButton,
+                        cancellationToken: cancellationToken);
+                    user.AddAnswer(false);
+                }
+                users.Update(user);
+            }
         }
         else if (messageText == "Моя статистика")
         {
@@ -119,7 +370,7 @@ public class TelegramBot
             replyMarkup: backButton,
             cancellationToken: cancellationToken);
         }
-        else if (messageText == "Назад")
+        else if (messageText == "Назад" || messageText == "В меню")
         {
             await botClient.SendTextMessageAsync(
             chatId: chatId,
