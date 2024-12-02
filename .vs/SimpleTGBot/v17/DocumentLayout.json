@@ -1,14 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Daniil\\source\\repos\\TGBOT\\",
+  "WorkspaceRootPath": "C:\\Users\\iqorb\\source\\repos\\PhilosopherBot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|c:\\users\\daniil\\source\\repos\\tgbot\\simpletgbot\\telegrambot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|solutionrelative:simpletgbot\\telegrambot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|c:\\users\\iqorb\\source\\repos\\philosopherbot\\simpletgbot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|solutionrelative:simpletgbot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|c:\\users\\daniil\\source\\repos\\tgbot\\simpletgbot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|solutionrelative:simpletgbot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|c:\\users\\iqorb\\source\\repos\\philosopherbot\\simpletgbot\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|solutionrelative:simpletgbot\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|c:\\users\\iqorb\\source\\repos\\philosopherbot\\simpletgbot\\telegrambot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BFA186C8-2B12-4779-8691-9914B54DD319}|SimpleTGBot\\SimpleTGBot.csproj|solutionrelative:simpletgbot\\telegrambot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,36 +22,54 @@
       "DocumentGroups": [
         {
           "DockedHeight": 913,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "TelegramBot.cs",
-              "DocumentMoniker": "C:\\Users\\Daniil\\source\\repos\\TGBOT\\SimpleTGBot\\TelegramBot.cs",
+              "DocumentMoniker": "C:\\Users\\iqorb\\source\\repos\\PhilosopherBot\\SimpleTGBot\\TelegramBot.cs",
               "RelativeDocumentMoniker": "SimpleTGBot\\TelegramBot.cs",
-              "ToolTip": "C:\\Users\\Daniil\\source\\repos\\TGBOT\\SimpleTGBot\\TelegramBot.cs*",
-              "RelativeToolTip": "SimpleTGBot\\TelegramBot.cs*",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAYwIQAAABAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\iqorb\\source\\repos\\PhilosopherBot\\SimpleTGBot\\TelegramBot.cs",
+              "RelativeToolTip": "SimpleTGBot\\TelegramBot.cs",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAmwKIAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-01T19:13:59.505Z",
+              "WhenOpened": "2024-12-02T09:50:18.225Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Daniil\\source\\repos\\TGBOT\\SimpleTGBot\\Program.cs",
-              "RelativeDocumentMoniker": "SimpleTGBot\\Program.cs",
-              "ToolTip": "C:\\Users\\Daniil\\source\\repos\\TGBOT\\SimpleTGBot\\Program.cs",
-              "RelativeToolTip": "SimpleTGBot\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAUAAAArAAAAAAAAAA==",
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\iqorb\\source\\repos\\PhilosopherBot\\SimpleTGBot\\User.cs",
+              "RelativeDocumentMoniker": "SimpleTGBot\\User.cs",
+              "ToolTip": "C:\\Users\\iqorb\\source\\repos\\PhilosopherBot\\SimpleTGBot\\User.cs",
+              "RelativeToolTip": "SimpleTGBot\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-01T19:13:45.668Z"
+              "WhenOpened": "2024-12-02T08:36:53.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\iqorb\\source\\repos\\PhilosopherBot\\SimpleTGBot\\Program.cs",
+              "RelativeDocumentMoniker": "SimpleTGBot\\Program.cs",
+              "ToolTip": "C:\\Users\\iqorb\\source\\repos\\PhilosopherBot\\SimpleTGBot\\Program.cs",
+              "RelativeToolTip": "SimpleTGBot\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-01T19:13:45.668Z",
+              "EditorCaption": ""
             }
           ]
         }
