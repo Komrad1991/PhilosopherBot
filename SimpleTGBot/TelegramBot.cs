@@ -71,6 +71,7 @@ public class TelegramBot
     {
         // Работаем только с сообщениями. Остальные события игнорируем
         var message = update.Message;
+        
         if (message is null)
         {
             return;
@@ -124,6 +125,14 @@ public class TelegramBot
             text: "Ты написал:\n" + messageText,
             replyMarkup: mainMenu,
             cancellationToken: cancellationToken);
+        }
+        else
+        {
+            await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "ты уверен что такой вариант есть?",
+                        replyMarkup: message.ReplyMarkup,
+                        cancellationToken: cancellationToken);
         }
 
     }
