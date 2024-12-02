@@ -184,7 +184,7 @@ public class TelegramBot
                     user = new User(chatId);
                     users.Insert(user);
                 }
-                if (user.GetLastQuest() == -1)
+                if (user.Answers == user.questionsUsed.Count())
                 {
                     Random r = new Random();
                     int id = r.Next(0, 9);
@@ -202,6 +202,7 @@ public class TelegramBot
                         return;
                     }
                 }
+
                 var currQuest = philosophyQuestions[user.GetLastQuest()];
                 string options = "";
                 for (int i = 0; i < currQuest.Options.Count(); i++)

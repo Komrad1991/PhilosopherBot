@@ -163,23 +163,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\likut\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\iqorb\\.nuget\\packages\\": {},
+    "D:\\vssdk\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\likut\\Desktop\\visual studio\\PhilosopherBot\\SimpleTGBot\\SimpleTGBot.csproj",
+      "projectUniqueName": "C:\\Users\\iqorb\\Source\\Repos\\PhilosopherBot\\SimpleTGBot\\SimpleTGBot.csproj",
       "projectName": "SimpleTGBot",
-      "projectPath": "C:\\Users\\likut\\Desktop\\visual studio\\PhilosopherBot\\SimpleTGBot\\SimpleTGBot.csproj",
-      "packagesPath": "C:\\Users\\likut\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\likut\\Desktop\\visual studio\\PhilosopherBot\\SimpleTGBot\\obj\\",
+      "projectPath": "C:\\Users\\iqorb\\Source\\Repos\\PhilosopherBot\\SimpleTGBot\\SimpleTGBot.csproj",
+      "packagesPath": "C:\\Users\\iqorb\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\iqorb\\Source\\Repos\\PhilosopherBot\\SimpleTGBot\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "D:\\vssdk\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\likut\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\iqorb\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -188,6 +188,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -204,9 +205,8 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "all"
-      },
-      "SdkAnalysisLevel": "9.0.100"
+        "auditMode": "direct"
+      }
     },
     "frameworks": {
       "net7.0": {
@@ -237,7 +237,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

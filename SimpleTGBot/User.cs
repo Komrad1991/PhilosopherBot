@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace SimpleTGBot
 {
     internal sealed class User
     {
+        public ObjectId Id { get; set; }
         public long chatId { get; private set; }
         //на что отвечал
         public List<int> questionsUsed { get; set; } = new List<int>();
