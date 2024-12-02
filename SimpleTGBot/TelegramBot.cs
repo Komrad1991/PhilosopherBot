@@ -148,13 +148,14 @@ public class TelegramBot
 
         // Получаем ID чата, в которое пришло сообщение. Полезно, чтобы отличать пользователей друг от друга.
         var chatId = message.Chat.Id;
+        var userId = message.From.Id;
         
         // Печатаем на консоль факт получения сообщения
         Console.WriteLine($"Получено сообщение в чате {chatId}: '{messageText}'");
         
         if (messageText == "/start")
         {
-            User user1 = new User(chatId);
+            User user1 = new User(chatId,userId);
 
             using (var db = new LiteDatabase(DBPATH))
             {
@@ -181,7 +182,7 @@ public class TelegramBot
                 var user = users.FindOne(x => x.chatId == chatId);
                 if (user == null)
                 {
-                    user = new User(chatId);
+                    user = new User(chatId, userId);
                     users.Insert(user);
                 }
                 if (user.Answers == user.questionsUsed.Count())
@@ -231,7 +232,7 @@ public class TelegramBot
                 var user = users.FindOne(x => x.chatId == chatId);
                 if (user == null)
                 {
-                    user = new User(chatId);
+                    user = new User(chatId, userId);
                     users.Insert(user);
                 }
                 if (philosophyQuestions[user.GetLastQuest()].IsCorrect(0))
@@ -264,7 +265,7 @@ public class TelegramBot
                 var user = users.FindOne(x => x.chatId == chatId);
                 if (user == null)
                 {
-                    user = new User(chatId);
+                    user = new User(chatId, userId);
                     users.Insert(user);
                 }
                 if (philosophyQuestions[user.GetLastQuest()].IsCorrect(1))
@@ -297,7 +298,7 @@ public class TelegramBot
                 var user = users.FindOne(x => x.chatId == chatId);
                 if (user == null)
                 {
-                    user = new User(chatId);
+                    user = new User(chatId, userId);
                     users.Insert(user);
                 }
                 if (philosophyQuestions[user.GetLastQuest()].IsCorrect(2))
@@ -330,7 +331,7 @@ public class TelegramBot
                 var user = users.FindOne(x => x.chatId == chatId);
                 if (user == null)
                 {
-                    user = new User(chatId);
+                    user = new User(chatId, userId);
                     users.Insert(user);
                 }
                 if (philosophyQuestions[user.GetLastQuest()].IsCorrect(3))
@@ -356,26 +357,62 @@ public class TelegramBot
         }
         else if (messageText == "Моя статистика")
         {
-            await botClient.SendTextMessageAsync(
-            chatId: chatId,
-            text: $"{"cюда стату"}",
-            replyMarkup: backButton,
-            cancellationToken: cancellationToken);
+            using (var db = new LiteDatabase(DBPATH))
+            {
+
+                var users = db.GetCollection<User>("users");
+                var user = users.FindOne(x => x.chatId == chatId);
+                if (user == null)
+                {
+                    user = new User(chatId, userId);
+                    users.Insert(user);
+                }
+
+                await botClient.SendTextMessageAsync(
+                chatId: chatId,
+                text: $"""
+                Отвечено вопросов: {user.Answers}
+                Ваши очки: {user.score}
+                Неправильно: {user.Answers - (user.score/10)}
+                """,
+                replyMarkup: backButton,
+                cancellationToken: cancellationToken);
+            }
+            
         }
         else if (messageText == "Глобальный рейтинг")
         {
-            var globalRatin = $"{"сюда запихнуть список топа"}";
-            await botClient.SendTextMessageAsync(
-            chatId: chatId,
-            text: "Ты написал:\n" + messageText,
-            replyMarkup: backButton,
-            cancellationToken: cancellationToken);
+            using (var db = new LiteDatabase(DBPATH))
+            {
+
+                var users = db.GetCollection<User>("users");
+                var user = users.FindOne(x => x.chatId == chatId);
+
+                if (user == null)
+                {
+                    user = new User(chatId, userId);
+                    users.Insert(user);
+                }
+                var allUsers = users.FindAll().ToList();
+                allUsers = allUsers.OrderByDescending(x => x.score).ToList();
+                string output = "";
+                for (int i = 0; i < Math.Min(10, allUsers.Count); i++)
+                {
+                    ChatMember member = await botClient.GetChatMemberAsync(allUsers[i].chatId, allUsers[i].UserId);
+                    output += $"{i + 1}. @{member.User.Username}: {allUsers[i].score} \n";
+                }
+                await botClient.SendTextMessageAsync(
+                chatId: chatId,
+                text: output + "\n" + $"Твое место: {allUsers.FindIndex(x => x.chatId == chatId) + 1} \n",
+                replyMarkup: backButton,
+                cancellationToken: cancellationToken);
+            }
         }
         else if (messageText == "Назад" || messageText == "В меню")
         {
             await botClient.SendTextMessageAsync(
             chatId: chatId,
-            text: "Ты написал:\n" + messageText,
+            text: "Вы в главном меню",
             replyMarkup: mainMenu,
             cancellationToken: cancellationToken);
         }

@@ -10,6 +10,7 @@ namespace SimpleTGBot
 {
     internal sealed class User
     {
+        public long UserId { get; set; }
         public ObjectId Id { get; set; }
         public long chatId { get; private set; }
         //на что отвечал
@@ -22,8 +23,13 @@ namespace SimpleTGBot
         //очки
         public int score { get; private set; } = 0;
 
-        public User(long ChatId) {
+        public User() 
+        {
+
+        }
+        public User(long ChatId, long id) {
             chatId = ChatId;
+            UserId = id;
         }
 
         public bool AddQuest(int questID) {
