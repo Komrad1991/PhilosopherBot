@@ -29,7 +29,7 @@ public class TelegramBot
 
         mainMenu.ResizeKeyboard = true;
         backButton.ResizeKeyboard = true;
-        mainMenu.IsPersistent = false;
+        answers.ResizeKeyboard = true;
         // Инициализируем наш клиент, передавая ему токен.
         var botClient = new TelegramBotClient(BotToken);
         // Служебные вещи для организации правильной работы с потоками
@@ -91,14 +91,41 @@ public class TelegramBot
         // Печатаем на консоль факт получения сообщения
         Console.WriteLine($"Получено сообщение в чате {chatId}: '{messageText}'");
 
-        // TODO: Обработка пришедших сообщений
-        
-        // Отправляем обратно то же сообщение, что и получили
-        Message sentMessage = await botClient.SendTextMessageAsync(
+        if (messageText == "Начать игру")
+        {
+            //todo - проверка, что тест завершен
+            await botClient.SendTextMessageAsync(
+            chatId: chatId,
+            text: $"сюда вопрос: {123}",
+            replyMarkup: answers,
+            cancellationToken: cancellationToken);
+        }
+        else if (messageText == "Моя статистика")
+        {
+            await botClient.SendTextMessageAsync(
+            chatId: chatId,
+            text: $"{"cюда стату"}",
+            replyMarkup: backButton,
+            cancellationToken: cancellationToken);
+        }
+        else if (messageText == "Глобальный рейтинг")
+        {
+            var globalRatin = $"{"сюда запихнуть список топа"}";
+            await botClient.SendTextMessageAsync(
+            chatId: chatId,
+            text: "Ты написал:\n" + messageText,
+            replyMarkup: backButton,
+            cancellationToken: cancellationToken);
+        }
+        else if (messageText == "Назад")
+        {
+            await botClient.SendTextMessageAsync(
             chatId: chatId,
             text: "Ты написал:\n" + messageText,
             replyMarkup: mainMenu,
             cancellationToken: cancellationToken);
+        }
+
     }
 
     /// <summary>
